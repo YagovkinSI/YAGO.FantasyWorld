@@ -11,7 +11,7 @@ namespace YAGO.FantasyWorld.Web.Controllers
     {
         private static readonly string[] Summaries = new[]
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+            "Ясно", "Облачно", "Пасмурно", "Небольшой дождь", "Дождь", "Ливень", "Град", "Ливень с грозой", "Снег"
         };
 
         [HttpGet]

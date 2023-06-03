@@ -23,8 +23,8 @@ class FetchData extends React.PureComponent<WeatherForecastProps> {
   public render() {
     return (
       <React.Fragment>
-        <h1 id="tabelLabel">Weather forecast</h1>
-        <p>This component demonstrates fetching data from the server and working with URL parameters.</p>
+        <h1 id="tabelLabel">Прогноз погоды</h1>
+        <p>Этот компонент демонстрирует получение данных с сервера и работу с параметрами URL.</p>
         {this.renderForecastsTable()}
         {this.renderPagination()}
       </React.Fragment>
@@ -41,18 +41,16 @@ class FetchData extends React.PureComponent<WeatherForecastProps> {
       <table className='table table-striped' aria-labelledby="tabelLabel">
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
+            <th style={{ width: '30%' }}>Дата</th>
+            <th style={{ width: '30%' }}>Температура</th>
+            <th style={{ width: '40%' }}>Погода</th>
           </tr>
         </thead>
         <tbody>
           {this.props.forecasts.map((forecast: WeatherForecastsStore.WeatherForecast) =>
             <tr key={forecast.date}>
-              <td>{new Date(Date.parse(forecast.date)).toLocaleDateString()}</td>
-              <td>{forecast.temperatureC}</td>
-              <td>{forecast.temperatureF}</td>
+              <td>{new Date(Date.parse(forecast.date)).toLocaleDateString('ru-ru')}</td>
+              <td>{forecast.temperatureC}°C</td>
               <td>{forecast.summary}</td>
             </tr>
           )}
@@ -67,9 +65,9 @@ class FetchData extends React.PureComponent<WeatherForecastProps> {
 
     return (
       <div className="d-flex justify-content-between">
-        <Link className='btn btn-outline-secondary btn-sm' to={`/fetch-data/${prevStartDateIndex}`}>Previous</Link>
-        {this.props.isLoading && <span>Loading...</span>}
-        <Link className='btn btn-outline-secondary btn-sm' to={`/fetch-data/${nextStartDateIndex}`}>Next</Link>
+        <Link className='btn btn-outline-secondary btn-sm' to={`/fetch-data/${prevStartDateIndex}`}>Назад</Link>
+        {this.props.isLoading && <span>Загрузка...</span>}
+        <Link className='btn btn-outline-secondary btn-sm' to={`/fetch-data/${nextStartDateIndex}`}>Вперёд</Link>
       </div>
     );
   }
@@ -78,4 +76,4 @@ class FetchData extends React.PureComponent<WeatherForecastProps> {
 export default connect(
   (state: ApplicationState) => state.weatherForecasts,
   WeatherForecastsStore.actionCreators
-)(FetchData as any); 
+)(FetchData as any);
