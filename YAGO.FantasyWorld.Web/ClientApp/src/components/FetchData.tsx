@@ -5,20 +5,17 @@ import { Link } from 'react-router-dom';
 import { ApplicationState } from '../store';
 import * as WeatherForecastsStore from '../store/WeatherForecasts';
 
-// At runtime, Redux will merge together...
 type WeatherForecastProps =
-  WeatherForecastsStore.WeatherForecastsState // ... state we've requested from the Redux store
-  & typeof WeatherForecastsStore.actionCreators // ... plus action creators we've requested
-  & RouteComponentProps<{ startDateIndex: string }>; // ... plus incoming routing parameters
+  WeatherForecastsStore.WeatherForecastsState
+  & typeof WeatherForecastsStore.actionCreators
+  & RouteComponentProps<{ startDateIndex: string }>;
 
 
 class FetchData extends React.PureComponent<WeatherForecastProps> {
-  // This method is called when the component is first added to the document
   public componentDidMount() {
     this.ensureDataFetched();
   }
 
-  // This method is called when the route parameters change
   public componentDidUpdate() {
     this.ensureDataFetched();
   }
@@ -79,6 +76,6 @@ class FetchData extends React.PureComponent<WeatherForecastProps> {
 }
 
 export default connect(
-  (state: ApplicationState) => state.weatherForecasts, // Selects which state properties are merged into the component's props
-  WeatherForecastsStore.actionCreators // Selects which action creators are merged into the component's props
-)(FetchData as any); // eslint-disable-line @typescript-eslint/no-explicit-any
+  (state: ApplicationState) => state.weatherForecasts,
+  WeatherForecastsStore.actionCreators
+)(FetchData as any); 
