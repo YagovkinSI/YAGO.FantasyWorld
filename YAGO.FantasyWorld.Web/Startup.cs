@@ -28,6 +28,21 @@ namespace YAGO.FantasyWorld.Web
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            HandleException(app, env);
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
+
+            app.UseRouting();
+
+            UseEndpoints(app);
+
+            UseSpa(app, env);
+        }
+
+        private static void HandleException(IApplicationBuilder app, IWebHostEnvironment env)
+        {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -37,20 +52,20 @@ namespace YAGO.FantasyWorld.Web
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+        }
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
-
-            app.UseRouting();
-
+        private static void UseEndpoints(IApplicationBuilder app)
+        {
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
             });
+        }
 
+        private static void UseSpa(IApplicationBuilder app, IWebHostEnvironment env)
+        {
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
