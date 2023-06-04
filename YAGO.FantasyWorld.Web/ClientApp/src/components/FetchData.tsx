@@ -11,32 +11,14 @@ type WeatherForecastProps =
   & RouteComponentProps<{ startDateIndex: string }>;
 
 
-class FetchData extends React.PureComponent<WeatherForecastProps> {
-  public componentDidMount() {
-    this.ensureDataFetched();
-  }
+const FetchData: React.FC<WeatherForecastProps> = (props) => {
+  const startDateIndex = parseInt(props.match.params.startDateIndex, 10) || 0;
 
-  public componentDidUpdate() {
-    this.ensureDataFetched();
-  }
+  React.useEffect(() => {
+    props.requestWeatherForecasts(startDateIndex);
+  });
 
-  public render() {
-    return (
-      <React.Fragment>
-        <h1 id="tabelLabel">Прогноз погоды</h1>
-        <p>Этот компонент демонстрирует получение данных с сервера и работу с параметрами URL.</p>
-        {this.renderForecastsTable()}
-        {this.renderPagination()}
-      </React.Fragment>
-    );
-  }
-
-  private ensureDataFetched() {
-    const startDateIndex = parseInt(this.props.match.params.startDateIndex, 10) || 0;
-    this.props.requestWeatherForecasts(startDateIndex);
-  }
-
-  private renderForecastsTable() {
+  const renderForecastsTable = () => {
     return (
       <table className='table table-striped' aria-labelledby="tabelLabel">
         <thead>
@@ -47,7 +29,7 @@ class FetchData extends React.PureComponent<WeatherForecastProps> {
           </tr>
         </thead>
         <tbody>
-          {this.props.forecasts.map((forecast: WeatherForecastsStore.WeatherForecast) =>
+          {props.forecasts.map((forecast: WeatherForecastsStore.WeatherForecast) =>
             <tr key={forecast.date}>
               <td>{new Date(Date.parse(forecast.date)).toLocaleDateString('ru-ru')}</td>
               <td>{forecast.temperatureC}°C</td>
@@ -59,18 +41,27 @@ class FetchData extends React.PureComponent<WeatherForecastProps> {
     );
   }
 
-  private renderPagination() {
-    const prevStartDateIndex = (this.props.startDateIndex || 0) - 5;
-    const nextStartDateIndex = (this.props.startDateIndex || 0) + 5;
+  const renderPagination = () => {
+    const prevStartDateIndex = (props.startDateIndex || 0) - 5;
+    const nextStartDateIndex = (props.startDateIndex || 0) + 5;
 
     return (
       <div className="d-flex justify-content-between">
         <Link className='btn btn-outline-secondary btn-sm' to={`/fetch-data/${prevStartDateIndex}`}>Назад</Link>
-        {this.props.isLoading && <span>Загрузка...</span>}
+        {props.isLoading && <span>Загрузка...</span>}
         <Link className='btn btn-outline-secondary btn-sm' to={`/fetch-data/${nextStartDateIndex}`}>Вперёд</Link>
       </div>
     );
   }
+
+  return (
+    <React.Fragment>
+      <h1 id="tabelLabel">Прогноз погоды</h1>
+      <p>Этот компонент демонстрирует получение данных с сервера и работу с параметрами URL.</p>
+      {renderForecastsTable()}
+      {renderPagination()}
+    </React.Fragment>
+  );
 }
 
 export default connect(
