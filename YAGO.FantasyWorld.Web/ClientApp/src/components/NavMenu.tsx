@@ -1,30 +1,45 @@
 import * as React from 'react';
-import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+import { Container, Nav, Navbar, Offcanvas } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
 
 const NavMenu: React.FC = () => {
-    const [isOpen, setIsOpen] = React.useState(false);
+    const [showOffcanvas, setShowOffcanvas] = React.useState(false);
+    const handleCloseOffcanvas = () => setShowOffcanvas(false);
+
+    const renderOffcanvas = () => {
+        return (
+            <Navbar.Offcanvas
+                show={showOffcanvas}
+                onHide={handleCloseOffcanvas}
+                id={`offcanvasNavbar`}
+                aria-labelledby={`offcanvasNavbarLabel`}
+                placement="end"
+                style={{ width: '250px' }}
+            >
+                <Offcanvas.Header closeButton>
+                    <Offcanvas.Title id={`offcanvasNavbarLabel`}>
+                        Главное меню
+                    </Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                    <Nav className="justify-content-end flex-grow-1 pe-3">
+                        <Nav.Link as={Link} to="/" onClick={() => setShowOffcanvas(false)}>Главная</Nav.Link>
+                        <Nav.Link as={Link} to="/counter" onClick={() => setShowOffcanvas(false)}>Счетчик</Nav.Link>
+                        <Nav.Link as={Link} to="/fetch-data" onClick={() => setShowOffcanvas(false)}>Получение данных</Nav.Link>
+                    </Nav>
+                </Offcanvas.Body>
+            </Navbar.Offcanvas>
+        )
+    }
 
     return (
         <header>
-            <Navbar className="navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3" light>
+            <Navbar bg="light" expand={'lg'} className="border-bottom box-shadow mb-3">
                 <Container>
-                    <NavbarBrand tag={Link} to="/">YAGO Fantasy World</NavbarBrand>
-                    <NavbarToggler onClick={() => setIsOpen(!isOpen)} className="mr-2" />
-                    <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={isOpen} navbar>
-                        <ul className="navbar-nav flex-grow">
-                            <NavItem>
-                                <NavLink tag={Link} className="text-dark" to="/">Главная</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink tag={Link} className="text-dark" to="/counter">Счетчик</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink tag={Link} className="text-dark" to="/fetch-data">Получение данных</NavLink>
-                            </NavItem>
-                        </ul>
-                    </Collapse>
+                    <Navbar.Brand as={Link} to="/">YAGO Fantasy World</Navbar.Brand>
+                    <Navbar.Toggle onClick={() => setShowOffcanvas(!showOffcanvas)} />
+                    {renderOffcanvas()}
                 </Container>
             </Navbar>
         </header>
