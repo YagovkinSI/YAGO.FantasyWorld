@@ -1,21 +1,21 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { ApplicationState } from '../store';
 import * as WeatherForecastsStore from '../store/WeatherForecasts';
 
 type WeatherForecastProps =
   WeatherForecastsStore.WeatherForecastsState
-  & typeof WeatherForecastsStore.actionCreators
-  & RouteComponentProps<{ startDateIndex: string }>;
-
+  & typeof WeatherForecastsStore.actionCreators;
 
 const FetchData: React.FC<WeatherForecastProps> = (props) => {
-  const startDateIndex = parseInt(props.match.params.startDateIndex, 10) || 0;
+  const { startDateIndex } = useParams();
+  const startDateIndexNumber = startDateIndex == undefined
+    ? 0
+    : parseInt(startDateIndex, 10) || 0;
 
   React.useEffect(() => {
-    props.requestWeatherForecasts(startDateIndex);
+    props.requestWeatherForecasts(startDateIndexNumber);
   });
 
   const renderForecastsTable = () => {
@@ -44,7 +44,6 @@ const FetchData: React.FC<WeatherForecastProps> = (props) => {
   const renderPagination = () => {
     const prevStartDateIndex = (props.startDateIndex || 0) - 5;
     const nextStartDateIndex = (props.startDateIndex || 0) + 5;
-
     return (
       <div className="d-flex justify-content-between">
         <Link className='btn btn-outline-secondary btn-sm' to={`/fetch-data/${prevStartDateIndex}`}>Назад</Link>
