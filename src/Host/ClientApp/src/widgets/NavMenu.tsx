@@ -7,6 +7,7 @@ import { Link } from '../shared/Link';
 
 const links: Link[] = [
     { name: 'Главная', path: '/' },
+    { name: 'Владения', path: '/Organizations' },
     { name: 'Счетчик', path: '/counter' },
     { name: 'Получение данных', path: '/fetch-data' },
 ];

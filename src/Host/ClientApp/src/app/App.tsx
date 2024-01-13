@@ -1,3 +1,5 @@
+import './custom.css'
+
 import * as React from 'react';
 import { Route, Routes } from 'react-router';
 import Layout from './Layout';
@@ -6,8 +8,7 @@ import Counter from '../pages/Counter';
 import FetchData from '../pages/FetchData';
 import Logout from '../pages/Logout';
 import LoginRegister from '../pages/LoginRegisterForm';
-
-import './custom.css'
+import OrganizationList from '../pages/OrganizationList';
 
 export default () => {
     return (
@@ -19,6 +20,7 @@ export default () => {
                 <Route path='/Logout' element={<Logout />} />
                 <Route path='/Register' element={<LoginRegister isLogin={false} />} />
                 <Route path='/Login' element={<LoginRegister isLogin={true} />} />
+                <Route path='/Organizations' element={<OrganizationList />} />
             </Routes>
         </Layout>
     )
