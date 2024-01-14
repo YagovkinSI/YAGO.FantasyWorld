@@ -13,7 +13,7 @@ namespace YAGO.FantasyWorld.Application.Organizations.Interfaces
 		/// <summary>
 		/// Получение списка организаций
 		/// </summary>
-		/// <param name="cancellationToken">ТОкен отмены</param>
+		/// <param name="cancellationToken">Токен отмены</param>
 		/// <returns>Список организаций</returns>
 		Task<IEnumerable<Organization>> GetOrganizations(CancellationToken cancellationToken);
 	}
