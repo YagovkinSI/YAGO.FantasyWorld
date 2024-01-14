@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using YAGO.FantasyWorld.Application.Admin;
 using YAGO.FantasyWorld.Application.Organizations;
 using YAGO.FantasyWorld.Application.Users;
 using YAGO.FantasyWorld.Application.WeatherForecastService;
@@ -47,10 +48,11 @@ namespace YAGO.FantasyWorld.Host
 
 		private static void AddAppServices(IServiceCollection services)
 		{
+			services.AddScoped<AdminService>();
 			services.AddScoped<UserLastActivityService>();
 			services.AddScoped<UserAuthorizationService>();
-			services.AddScoped<WeatherForecastService>();
 			services.AddScoped<OrganizationService>();
+			services.AddScoped<WeatherForecastService>();
 		}
 
 		private static void AddSwagger(IServiceCollection services)
