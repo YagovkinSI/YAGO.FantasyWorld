@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using YAGO.FantasyWorld.Application.Organizations;
+using YAGO.FantasyWorld.Domain.Organization;
 using YAGO.FantasyWorld.Host.Models.Organizations;
 using YAGO.FantasyWorld.Host.Models.Users;
 
@@ -11,8 +14,11 @@ namespace YAGO.FantasyWorld.Host.Controllers
 	[Route("[controller]")]
 	public class OrganizationController : ControllerBase
 	{
-		public OrganizationController()
+		private readonly OrganizationService _organizationService;
+
+		public OrganizationController(OrganizationService organizationService)
 		{
+			_organizationService = organizationService;
 		}
 
 		[HttpGet]
@@ -20,14 +26,22 @@ namespace YAGO.FantasyWorld.Host.Controllers
 		public async Task<IEnumerable<OrganizationLine>> GetOrganizations(CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
-			return await Task.FromResult(organizationLines);
+			var organizations = await _organizationService.GetOrganizations(cancellationToken);
+			return organizations
+				.Select(w => ToApi(w));
 		}
 
-		private readonly OrganizationLine[] organizationLines = new[]
+		private static OrganizationLine ToApi(Organization organization)
 		{
-			new OrganizationLine(1, "ТестовоеПервое", 500, null),
-			new OrganizationLine(2, "ТестовоеВторое", 500, null),
-			new OrganizationLine(3, "ТестовоеДлинное", 500, new UserLink(1, "ТестовоеДлинное")),
-		};
+			return new OrganizationLine
+			(
+				organization.Id,
+				organization.Name,
+				organization.Power,
+				organization.UserLink == null
+					? null
+					: new UserLink(organization.UserLink.Id, organization.UserLink.Name)
+			);
+		}
 	}
 }
