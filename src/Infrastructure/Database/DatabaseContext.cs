@@ -13,5 +13,11 @@ namespace YAGO.FantasyWorld.Infrastructure.Database
 		{
 			Database.Migrate();
 		}
+
+		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		{
+			optionsBuilder.UseLazyLoadingProxies();
+			base.OnConfiguring(optionsBuilder);
+		}
 	}
 }
