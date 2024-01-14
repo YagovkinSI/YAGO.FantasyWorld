@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using YAGO.FantasyWorld.Application.Organizations.Interfaces;
 using YAGO.FantasyWorld.Domain.Organization;
 
 namespace YAGO.FantasyWorld.Application.Organizations
@@ -11,23 +11,23 @@ namespace YAGO.FantasyWorld.Application.Organizations
 	/// </summary>
 	public class OrganizationService
 	{
-		private readonly Organization[] organizations = new[]
+		private readonly IOrganizationDatabaseService _databaseService;
+
+		public OrganizationService(IOrganizationDatabaseService databaseService)
 		{
-			new Organization(1, "ТестовоеПервое", 500, null),
-			new Organization(2, "ТестовоеВторое", 500, null),
-			new Organization(3, "ТестовоеДлинное", 500, new Domain.BaseModels.Link<string>("ТестовоеДлинное", "ТестовоеДлинное")),
-		};
+			_databaseService = databaseService;
+		}
 
 		/// <summary>
 		/// Получение прогноза погоды на пять дней
 		/// </summary>
 		/// <param name="cancellationToken">Токен отмены</param>
 		/// <returns>Прогноз погоды на пять дней</returns>
-		public Task<IEnumerable<Organization>> GetOrganizations(CancellationToken cancellationToken)
+		public async Task<IEnumerable<Organization>> GetOrganizations(CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
-
-			return Task.FromResult(organizations.AsEnumerable());
+			var organizations = await _databaseService.GetOrganizations(cancellationToken);
+			return organizations;
 		}
 	}
 }
