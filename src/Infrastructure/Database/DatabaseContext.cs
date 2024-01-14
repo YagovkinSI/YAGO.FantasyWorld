@@ -6,6 +6,8 @@ namespace YAGO.FantasyWorld.Infrastructure.Database
 {
 	public partial class DatabaseContext : IdentityDbContext<User>
 	{
+		public DbSet<Organization> Organizations { get; set; }
+
 		public DatabaseContext(DbContextOptions<DatabaseContext> options)
 			   : base(options)
 		{
