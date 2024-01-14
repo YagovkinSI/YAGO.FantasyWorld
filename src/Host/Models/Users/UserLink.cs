@@ -5,7 +5,7 @@
 	/// </summary>
 	public class UserLink
 	{
-		internal UserLink(long id, string name)
+		internal UserLink(string id, string name)
 		{
 			Id = id;
 			Name = name;
@@ -14,7 +14,7 @@
 		/// <summary>
 		/// Идентификатор
 		/// </summary>
-		public long Id { get; }
+		public string Id { get; }
 
 		/// <summary>
 		/// Имя

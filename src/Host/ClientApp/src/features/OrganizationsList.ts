@@ -1,7 +1,7 @@
 import { localhostApi } from "../shared/localhostApi";
 
 export interface UserLink {
-    id: number;
+    string: number;
     name: string;
 }
 
